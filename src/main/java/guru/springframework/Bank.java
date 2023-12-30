@@ -2,8 +2,9 @@ package guru.springframework;
 
 public class Bank {
 	
-	Money reduced(Expression source, String toCurrency) {
-		return Money.dollar(10); 
+	Money reduce(Expression source, String toCurrency) {
+		return source.reduce(toCurrency);
+
 	}
 
 }
