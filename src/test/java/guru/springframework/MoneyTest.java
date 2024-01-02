@@ -9,11 +9,11 @@ public class MoneyTest {
 
 	@Test
 	void testMultiplicationDollar() {
-		Money five = Money.dollar(5);
+		Expression five = Money.dollar(5);
 		assertEquals(Money.dollar(10), five.times(2));
 		assertEquals(Money.dollar(15), five.times(3));
 
-		Money fiveF = Money.franc(5);
+		Expression fiveF = Money.franc(5);
 		assertEquals(Money.franc(10), fiveF.times(2));
 	}
 
@@ -88,6 +88,28 @@ public class MoneyTest {
 		bank.addRate("CHF", "USD", 2);
 		Expression result = bank.reduce(fiveBucks.plus(tenFrancs), "USD");
 		assertEquals(Money.dollar(10), result);
+	}
+	
+	@Test
+	public void testSumPlusMoney() {
+		Expression fiveBucks = Money.dollar(5);
+		Expression tenFrancs = Money.franc(10);
+		Bank bank = new Bank();
+		bank.addRate("CHF", "USD", 2);
+		Expression sum = new Sum(fiveBucks,tenFrancs).plus(fiveBucks);
+		Expression result = bank.reduce(sum, "USD");
+		assertEquals(Money.dollar(15),result);
+	}
+	
+	@Test
+	public void testSumTimes() {
+		Expression fiveBucks = Money.dollar(5);
+		Expression tenFrancs = Money.franc(10);
+		Bank bank = new Bank();
+		bank.addRate("CHF", "USD", 2);
+		Expression sum = new Sum(fiveBucks, tenFrancs).times(2);
+		Expression result = bank.reduce(sum, "USD");
+		assertEquals(Money.dollar(20), result);
 	}
 
 }
